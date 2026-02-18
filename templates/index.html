@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CAM-1 (Intelligent Screening Platform for Co-Amorphous Materials)</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-indigo-50 min-h-screen font-sans text-slate-800">
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    <header class="mb-10 text-center">
+      <h1 class="text-3xl md:text-4xl font-bold text-indigo-700 mb-2">CAM-1 (Intelligent Screening Platform for Co-Amorphous Materials)</h1>
+      <p class="text-slate-600">Obtain intelligent recommendations from CAM-1 by inputting any formulation and process.</p>
+    </header>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Input Form -->
+      <section class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-xl font-semibold text-slate-700 mb-6 flex items-center">
+          <span class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mr-3">1</span>
+          Input
+        </h2>
+        
+        <form id="form" class="space-y-5">
+          <div class="space-y-2">
+            <label for="smiles1" class="block text-sm font-medium text-slate-700">Compound 1 SMILES</label>
+            <input 
+              id="smiles1" 
+              type="text" 
+              required 
+              placeholder="e.g.: CC(=O)OC1=CC=CC=C1C(=O)O"
+              class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+            />
+          </div>
+          
+          <div class="space-y-2">
+            <label for="smiles2" class="block text-sm font-medium text-slate-700">Compound 2 SMILES</label>
+            <input 
+              id="smiles2" 
+              type="text" 
+              required 
+              placeholder="e.g.: C1=CC=C(C=C1)C(=O)O"
+              class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-slate-700">Preparation Method</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                <input type="radio" name="method" value="1" checked class="text-indigo-600 focus:ring-indigo-500" />
+                <span class="ml-2 text-sm font-medium">Solvent Method</span>
+              </label>
+              <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
+                <input type="radio" name="method" value="2" class="text-indigo-600 focus:ring-indigo-500" />
+                <span class="ml-2 text-sm font-medium">Melt Method</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="ratio" class="block text-sm font-medium text-slate-700">Weight Ratio</label>
+            <input 
+              id="ratio" 
+              type="number" 
+              step="0.0001" 
+              min="0.0001" 
+              required 
+              placeholder="e.g.: 1.0"
+              class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+            />
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium py-3 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 flex items-center justify-center"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+            Start Prediction & Analysis
+          </button>
+        </form>
+      </section>
+
+      <!-- Results Display -->
+      <section class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-xl font-semibold text-slate-700 mb-6 flex items-center">
+          <span class="w-8 h-8 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mr-3">2</span>
+          Prediction Results & Analysis
+        </h2>
+        
+        <div id="result" class="min-h-[420px]">
+          <div class="text-center text-slate-500 py-12">
+            <svg class="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+            <p>Input compound information and click prediction button</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById('form');
+    const resultDiv = document.getElementById('result');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const smiles1 = document.getElementById('smiles1').value.trim();
+      const smiles2 = document.getElementById('smiles2').value.trim();
+      const ratio = parseFloat(document.getElementById('ratio').value);
+      const method = parseInt(document.querySelector('input[name="method"]:checked').value);
+      
+      if (!smiles1 || !smiles2 || !ratio || ratio <= 0) {
+        alert('Please input valid compound information');
+        return;
+      }
+      
+      // Show loading state
+      resultDiv.innerHTML = `
+        <div class="text-center py-12">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mb-4"></div>
+          <p class="text-slate-600">Predicting compound interactions...</p>
+        </div>
+      `;
+      
+      try {
+        // Prediction phase
+        const predictResponse = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ smiles1, smiles2, method, ratio })
+        });
+        
+        const predictResult = await predictResponse.json();
+        
+        if (!predictResponse.ok) {
+          resultDiv.innerHTML = `
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+              <h3 class="font-semibold mb-2">Prediction Failed</h3>
+              <p>${predictResult.error || 'Error occurred during prediction'}</p>
+            </div>
+          `;
+          return;
+        }
+        
+        const canForm = predictResult.prediction === 1;
+        const probability = predictResult.probability.toFixed(3);
+        
+        // Display prediction result
+        resultDiv.innerHTML = `
+          <div class="space-y-4">
+            <div class="${canForm ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4">
+              <div class="flex items-center mb-2">
+                <div class="w-3 h-3 rounded-full ${canForm ? 'bg-green-500' : 'bg-red-500'} mr-2"></div>
+                <h3 class="font-semibold ${canForm ? 'text-green-800' : 'text-red-800'}">
+                  ${canForm ? 'Can form co-amorphous material' : 'Cannot form co-amorphous'}
+                </h3>
+              </div>
+              <p class="text-sm ${canForm ? 'text-green-700' : 'text-red-700'}">
+                Prediction probability: <span class="font-medium">${probability}</span>
+              </p>
+            </div>
+            
+            <div class="text-center py-4">
+              <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+              <p class="text-slate-600 mt-2">Generating detailed molecular analysis...</p>
+            </div>
+          </div>
+        `;
+        
+        // Analysis phase
+        const analyzeResponse = await fetch('/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ smiles1, smiles2, prediction: predictResult.prediction })
+        });
+        
+        const analyzeResult = await analyzeResponse.json();
+        
+        if (!analyzeResponse.ok) {
+          resultDiv.innerHTML = `
+            <div class="space-y-4">
+              <div class="${canForm ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <div class="w-3 h-3 rounded-full ${canForm ? 'bg-green-500' : 'bg-red-500'} mr-2"></div>
+                  <h3 class="font-semibold ${canForm ? 'text-green-800' : 'text-red-800'}">
+                    ${canForm ? 'Can form co-amorphous material' : 'Cannot form co-amorphous'}
+                  </h3>
+                </div>
+                <p class="text-sm ${canForm ? 'text-green-700' : 'text-red-700'}">
+                  Prediction probability: <span class="font-medium">${probability}</span>
+                </p>
+              </div>
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-800">
+                <h3 class="font-semibold mb-2">Analysis Failed</h3>
+                <p>${analyzeResult.error || 'Error occurred during analysis'}</p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+        
+        const analysis = analyzeResult.analysis || {};
+        
+        // Display complete results with enhanced analysis
+        resultDiv.innerHTML = `
+          <div class="space-y-6">
+            <!-- Prediction Result -->
+            <div class="${canForm ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'} border rounded-lg p-4">
+              <div class="flex items-center mb-2">
+                <div class="w-3 h-3 rounded-full ${canForm ? 'bg-green-500' : 'bg-red-500'} mr-2"></div>
+                <h3 class="font-semibold ${canForm ? 'text-green-800' : 'text-red-800'}">
+                  ${canForm ? 'Can form co-amorphous material' : 'Cannot form co-amorphous'}
+                </h3>
+              </div>
+              <p class="text-sm ${canForm ? 'text-green-700' : 'text-red-700'}">
+                Prediction probability: <span class="font-medium">${probability}</span>
+              </p>
+            </div>
+            
+            <!-- Enhanced Detailed Analysis -->
+            <div class="bg-slate-50 rounded-lg p-4">
+              <h3 class="font-semibold text-slate-800 mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+                Deep Molecular Analysis
+              </h3>
+              
+              <div class="space-y-4">
+                <div class="bg-white rounded-lg p-4 border border-slate-200 analysis-card">
+                  <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
+                    <span class="w-4 h-4 bg-yellow-400 rounded-full mr-2"></span>
+                    ⚡ Electrostatic Interaction
+                  </h4>
+                  <div class="text-sm text-slate-600 leading-relaxed analysis-content">${analysis.electrostatic || 'Analyzing charge distribution and electrostatic interactions...'}</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 border border-slate-200 analysis-card">
+                  <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
+                    <span class="w-4 h-4 bg-purple-400 rounded-full mr-2"></span>
+                    🌀 π-π Interaction
+                  </h4>
+                  <div class="text-sm text-slate-600 leading-relaxed analysis-content">${analysis.pi_pi_interaction || 'Examining aromatic ring interactions and π-electron systems...'}</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 border border-slate-200 analysis-card">
+                  <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
+                    <span class="w-4 h-4 bg-blue-400 rounded-full mr-2"></span>
+                    🔗 Hydrogen Bonding
+                  </h4>
+                  <div class="text-sm text-slate-600 leading-relaxed analysis-content">${analysis.hydrogen_bond || 'Identifying hydrogen bond donors and acceptors...'}</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 border border-slate-200 analysis-card">
+                  <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
+                    <span class="w-4 h-4 bg-green-400 rounded-full mr-2"></span>
+                    🛡️ Hydrophobic Interaction
+                  </h4>
+                  <div class="text-sm text-slate-600 leading-relaxed analysis-content">${analysis.hydrophobic_interaction || 'Assessing non-polar interactions and hydrophobic effects...'}</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 border border-slate-200 analysis-card">
+                  <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
+                    <span class="w-4 h-4 bg-red-400 rounded-full mr-2"></span>
+                    🌡️ Thermodynamics & Phase Behavior
+                  </h4>
+                  <div class="text-sm text-slate-600 leading-relaxed analysis-content">${analysis.thermodynamics || 'Evaluating thermodynamic stability and phase behavior...'}</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 border border-slate-200 analysis-card">
+                  <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
+                    <span class="w-4 h-4 bg-indigo-400 rounded-full mr-2"></span>
+                    ⚙️ Kinetic Control
+                  </h4>
+                  <div class="text-sm text-slate-600 leading-relaxed analysis-content">${analysis.kinetics || 'Considering molecular mobility and kinetic factors...'}</div>
+                </div>
+              </div>
+            </div>
+            
+            ${analyzeResult.warning ? `
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div class="flex items-center">
+                  <svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                  <h3 class="font-semibold text-yellow-800">Attention</h3>
+                </div>
+                <p class="text-yellow-700 mt-1">${analyzeResult.warning}</p>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+            <h3 class="font-semibold mb-2">Request Failed</h3>
+            <p>Network request failed, please check connection or try again later</p>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

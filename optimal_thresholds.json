@@ -1,0 +1,10 @@
+{
+  "optimal_threshold_f1": 0.2599999999999999,
+  "optimal_f1_score": 0.9383886255924171,
+  "optimal_threshold_acc": 0.2599999999999999,
+  "optimal_acc_score": 0.8925619834710744,
+  "optimal_threshold_prec": 0.7799999999999997,
+  "optimal_prec_score": 0.9743589743589743,
+  "optimal_threshold_rec": 0.1,
+  "optimal_rec_score": 0.9902439024390244
+}

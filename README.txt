@@ -209,15 +209,5 @@ If any required artifact is missing, the API will return an error message (for e
 python -m pytest -q
 ```
 
-## Troubleshooting
 
-- **`GLM API key not configured`**: add `GLM_API_KEY` to `.env` and restart the server.
-- **Knowledge base not accessible**: ensure `Knowledge base.docx` exists in the project root; analysis can still run with reduced context.
-- **RDKit installation issues**: RDKit can be difficult on some platforms. The app includes a regex fallback for basic SMILES validation, but RDKit is recommended for better validation.
-- **Unicode filename issues**: if imports fail for `Molecular descriptor calculation and variable construction.py`, ensure your OS/filesystem and locale support UTF-8 filenames.
-
-## Security
-
-- Never commit `.env` or any API keys to GitHub.
-- Rotate your GLM API key immediately if it is accidentally exposed.
 
